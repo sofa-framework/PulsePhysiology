@@ -1,53 +1,87 @@
 cmake_minimum_required(VERSION 3.7)
-# Using SOURCE_SUBDIR which was first in 3.7
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install CACHE PATH "Install location")
-
-project(SuperBuild)
-
-# Policy to address @foo@ variable expansion
-if(POLICY CMP0053)
-  cmake_policy(SET CMP0053 NEW)
-endif()
-
-MACRO(install_headers SRC_DIR DEST)
-  file(GLOB_RECURSE HEADER_LIST 
-    ${SRC_DIR}/*.h 
-    ${SRC_DIR}/*.hxx
-    ${SRC_DIR}/*.inl)
-  foreach(HEADER ${HEADER_LIST})
-    #message(STATUS "Header at ${HEADER}")
-    STRING(REPLACE ${SRC_DIR}/ "" REL_DIR ${HEADER})
-    #message(STATUS "Relative Path ${REL_DIR}")  
-    set(FULL_LOC ${CMAKE_INSTALL_PREFIX}/include/${DEST}/${REL_DIR})
-    #message(STATUS "File should goto ${FULL_LOC}")
-    get_filename_component(DEST_DIR ${FULL_LOC} PATH) 
-    #message(STATUS "Going to ${DEST_DIR}")
-    install(FILES ${HEADER} DESTINATION ${DEST_DIR})
-  endforeach()    
-ENDMACRO(install_headers)
-
-message(STATUS "Installing to ${CMAKE_INSTALL_PREFIX}")
-set(INSTALL_BIN ${CMAKE_INSTALL_PREFIX}/bin)
-set(INSTALL_LIB ${CMAKE_INSTALL_PREFIX}/lib)
-file(MAKE_DIRECTORY "${INSTALL_BIN}/debug")
-file(MAKE_DIRECTORY "${INSTALL_BIN}/release")
-file(MAKE_DIRECTORY "${INSTALL_BIN}/relwithdebinfo")
-
-if(UNIX AND NOT APPLE)
-  set(LINUX TRUE)
-endif()
-
-
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "Setting build type to 'Release' as none was specified.")
-  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+  
 endif()
 
-set (SUPERBUILD ON CACHE BOOL "Initial pull and build of all dependent libraries/executables")
-set (PULSE_DOWNLOAD_BASELINES OFF CACHE BOOL "Download all V&V Scenarios and their baseline result files")
-if(SUPERBUILD)
-  include(SuperBuild.cmake)
-else()
-  include(Pulse.cmake)
+# Superbuild stuff
+option(DO_SUPERBUILD "Download and build any project dependencies" ON)
+if (DO_SUPERBUILD)
+  include("CMake/SuperBuild.cmake")
+  return()
 endif()
+
+# Set the possible values of build type for cmake-gui
+
+if(MSVC OR XCode)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+set(project_name PulsePhysiology)
+project(${project_name})
+
+set(${project_name}_CMAKE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+
+find_package(Qt5 COMPONENTS Core Widgets Charts REQUIRED)
+
+
+# Set a consistent MACOSX_RPATH default across all CMake versions.
+# When CMake 2.8.12 is required, change this default to 1.
+# When CMake 3.0.0 is required, remove this block (see CMP0042).
+if(NOT DEFINED CMAKE_MACOSX_RPATH)
+  set(CMAKE_MACOSX_RPATH 0)
+endif()
+
+# Set up our directory structure for output libraries and binaries
+if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_INSTALL_PREFIX}/bin")
+endif()
+if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+  if(UNIX)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_PREFIX}/lib")
+  else()
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_INSTALL_PREFIX}/bin")
+  endif()
+endif()
+if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_INSTALL_PREFIX}/lib")
+endif()
+
+set(initPulsePhysiology.cpp
+)
+
+#------------------------------------------------------------------------------
+
+
+find_package(Pulse REQUIRED)
+
+include_directories(
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${Pulse_INCLUDE_DIRS}
+  )
+
+source_group("Generated" FILES
+  ${MOC_BUILT_SOURCES}
+  ${UI_BUILT_SOURCES}
+)
+
+set(${project_name}_SOURCE_FILES
+  
+)
+
+  
+#install (TARGETS "${project_name}" DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+
+file(COPY data DESTINATION ${Pulse_INSTALL}/bin)
+# Need to support debug still
+if(WIN32)
+  set(postfix)#for debug builds this should be "d"
+  
+  install(FILES ${Qt_DLLs} DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+  install(DIRECTORY ${Qt5_DIR}/../../../plugins/platforms DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+endif()
+

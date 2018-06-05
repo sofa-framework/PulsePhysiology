@@ -4,6 +4,7 @@
 // Include the various types you will be using in your code
 #include "CommonDataModel.h"
 #include "PulsePhysiologyEngine.h"
+#include "scenario/SEDataRequestManager.h"
 #include "patient/actions/SEHemorrhage.h"
 #include "patient/actions/SESubstanceCompoundInfusion.h"
 #include "system/physiology/SEBloodChemistrySystem.h"
@@ -63,15 +64,15 @@ public:
 /// Refer to the SESubstanceManager class
 /// Refer to the SESubstanceIVFluids class for applying an IV to the patient
 //--------------------------------------------------------------------------------------------------
-void main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
   // Create the engine and load the patient
   std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToHemorrhage.log");
   pe->GetLogger()->Info("HowToHemorrhage");
-  if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
+  if (!pe->LoadStateFile("/mnt/data/pulse/install/bin/states/StandardMale@0s.pba"))
   {
     pe->GetLogger()->Error("Could not load state, check the error");
-    return;
+    return -1;
   }
 
   // The tracker is responsible for advancing the engine time and outputting the data requests below at each time step
@@ -80,15 +81,16 @@ void main(int argc, char* argv[])
   // Create data requests for each value that should be written to the output log as the engine is executing
   // Physiology System Names are defined on the System Objects 
   // defined in the Physiology.xsd file
-  pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("HeartRate", FrequencyUnit::Per_min);
-  pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("BloodVolume", VolumeUnit::mL);
-  pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("CardiacOutput", VolumePerTimeUnit::mL_Per_min);
-  pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("MeanArterialPressure", PressureUnit::mmHg);
-  pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("SystolicArterialPressure", PressureUnit::mmHg);
-  pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("DiastolicArterialPressure", PressureUnit::mmHg);
-  pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("HemoglobinContent",MassUnit::g);
+  SEDataRequestManager sedrm =pe->GetEngineTracker()->GetDataRequestManager();
+  sedrm.CreatePhysiologyDataRequest("HeartRate", FrequencyUnit::Per_min);
+  sedrm.CreatePhysiologyDataRequest("BloodVolume", VolumeUnit::mL);
+  sedrm.CreatePhysiologyDataRequest("CardiacOutput", VolumePerTimeUnit::mL_Per_min);
+  sedrm.CreatePhysiologyDataRequest("MeanArterialPressure", PressureUnit::mmHg);
+  sedrm.CreatePhysiologyDataRequest("SystolicArterialPressure", PressureUnit::mmHg);
+  sedrm.CreatePhysiologyDataRequest("DiastolicArterialPressure", PressureUnit::mmHg);
+  sedrm.CreatePhysiologyDataRequest("HemoglobinContent",MassUnit::g);
   
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToHemorrhage.txt");
+  sedrm.SetResultsFilename("HowToHemorrhage.txt");
   
   pe->GetLogger()->Info("The patient is nice and healthy");
   pe->GetLogger()->Info(std::stringstream() <<"Cardiac Output : " << pe->GetCardiovascularSystem()->GetCardiacOutput(VolumePerTimeUnit::mL_Per_min) << VolumePerTimeUnit::mL_Per_min);
@@ -155,4 +157,6 @@ void main(int argc, char* argv[])
   pe->GetLogger()->Info(std::stringstream() <<"Diastolic Pressure : " << pe->GetCardiovascularSystem()->GetDiastolicArterialPressure(PressureUnit::mmHg) << PressureUnit::mmHg);
   pe->GetLogger()->Info(std::stringstream() <<"Heart Rate : " << pe->GetCardiovascularSystem()->GetHeartRate(FrequencyUnit::Per_min) << "bpm");;
   pe->GetLogger()->Info("Finished");
+
+  return 0;
 }

@@ -15,8 +15,6 @@ list(APPEND HEADER_FILES
 
 list(APPEND SOURCE_FILES
     src/PulsePhysiology/main.cpp
-    src/PulsePhysiology/EngineUse.cpp
-
 )
 
 

@@ -10,13 +10,13 @@ set(HEADER_FILES config/PulsePhysiology.h)
 set(SOURCE_FILES config/PulsePhysiology.cpp)
 
 list(APPEND HEADER_FILES
-	
+	src/PulsePhysiology/EngineUse.h
 )
 
 list(APPEND SOURCE_FILES
     src/PulsePhysiology/main.cpp
     src/PulsePhysiology/EngineUse.cpp
-    src/PulsePhysiology/EngineUse.h
+
 )
 
 

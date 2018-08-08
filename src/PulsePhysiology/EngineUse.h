@@ -6,33 +6,30 @@
 
 #include "CommonDataModel.h"
 #include "PulsePhysiologyEngine.h"
+#include "scenario/SEDataRequestManager.h"
+#include "patient/actions/SEHemorrhage.h"
+#include "patient/actions/SESubstanceCompoundInfusion.h"
+#include "system/physiology/SEBloodChemistrySystem.h"
+#include "system/physiology/SECardiovascularSystem.h"
+#include "system/physiology/SEEnergySystem.h"
+#include "system/physiology/SERespiratorySystem.h"
+#include "substance/SESubstanceManager.h"
+#include "substance/SESubstanceCompound.h"
+#include "properties/SEScalar0To1.h"
+#include "properties/SEScalarFrequency.h"
+#include "properties/SEScalarMass.h"
+#include "properties/SEScalarMassPerVolume.h"
+#include "properties/SEScalarPressure.h"
+#include "properties/SEScalarTemperature.h"
+#include "properties/SEScalarTime.h"
+#include "properties/SEScalarVolume.h"
+#include "properties/SEScalarVolumePerTime.h"
+#include "engine/SEEngineTracker.h"
+#include "compartment/SECompartmentManager.h"
 
 // The following how-to functions are defined in their own file
 void HowToEngineUse();
-void HowToCreateAPatient();
 
-void HowToAirwayObstruction();
-void HowToAnesthesiaMachine();
-void HowToAsthmaAttack();
-void HowToBrainInjury();
-void HowToBolusDrug();
-void HowToConsumeNutrients();
-void HowToCOPD();
-void HowToCPR();
-void HowToEnvironmentChange();
-void HowToExercise();
-void HowToHemorrhage();
-void HowToLobarPneumonia();
-void HowToMechanicalVentilation();
-void HowToPulmonaryFunctionTest();
-void HowToSmoke();
-void HowToTensionPneumothorax();
-
-void HowToConcurrentEngines();
-void HowToRunScenario();
-void HowToDynamicHemorrhage();
-
-void HowToSandbox();
 
 class SEDataRequest;
 
@@ -45,9 +42,23 @@ private:
   double m_dT_s;  // Cached Engine Time Step
   PhysiologyEngine& m_Engine;
 public:
-  HowToTracker(PhysiologyEngine& engine);
-  ~HowToTracker();
+  HowToTracker(PhysiologyEngine& engine) : m_Engine(engine)
+  {
+    m_dT_s = m_Engine.GetTimeStep(TimeUnit::s);
+  }
+  ~HowToTracker() { }
 
   // This class will operate on seconds
-  void AdvanceModelTime(double time_s);
+  void AdvanceModelTime(double time_s)
+  {
+    // This samples the engine at each time step
+    int count = static_cast<int>(time_s / m_dT_s);
+    for (int i = 0; i <= count; i++)
+    {
+      m_Engine.AdvanceModelTime();  // Compute 1 time step
+
+                                    // Pull Track will pull data from the engine and append it to the file
+      m_Engine.GetEngineTracker()->TrackData(m_Engine.GetSimulationTime(TimeUnit::s));
+    }
+  }
 };

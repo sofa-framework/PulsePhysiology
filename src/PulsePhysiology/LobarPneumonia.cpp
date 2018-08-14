@@ -33,7 +33,7 @@
 void HowToLobarPneumonia()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToLobarPneumonia.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("LobarPneumonia.log");
   pe->GetLogger()->Info("HowToLobarPneumonia");
   
   // Lobar pneumonia is a form of pneumonia that affects one or more lobes of the lungs.  
@@ -68,7 +68,7 @@ void HowToLobarPneumonia()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("InspiratoryExpiratoryRatio");
   pe->GetEngineTracker()->GetDataRequestManager().CreateGasCompartmentDataRequest(pulse::PulmonaryCompartment::Carina, "InFlow");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToLobarPneumonia.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("LobarPneumonia.csv");
 
   // Advance some time to get some data
   tracker.AdvanceModelTime(500);

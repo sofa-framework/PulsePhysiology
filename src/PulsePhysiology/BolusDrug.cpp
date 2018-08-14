@@ -35,7 +35,7 @@
 void HowToBolusDrug()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToBolusDrug.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("BolusDrug.log");
   pe->GetLogger()->Info("HowToBolusDrug");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
   {
@@ -58,7 +58,7 @@ void HowToBolusDrug()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("TidalVolume", VolumeUnit::mL);
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("NeuromuscularBlockLevel");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToBolusDrug.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("BolusDrug.csv");
 
   pe->GetLogger()->Info("The patient is nice and healthy");
   pe->GetLogger()->Info(std::stringstream() <<"Tidal Volume : " << pe->GetRespiratorySystem()->GetTidalVolume(VolumeUnit::mL) << VolumeUnit::mL);

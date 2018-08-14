@@ -33,7 +33,7 @@
 void HowToAsthmaAttack() 
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToAsthma.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("Asthma.log");
   pe->GetLogger()->Info("HowToAsthmaAttack");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
   {
@@ -56,7 +56,7 @@ void HowToAsthmaAttack()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("InspiratoryExpiratoryRatio");
   pe->GetEngineTracker()->GetDataRequestManager().CreateGasCompartmentDataRequest(pulse::PulmonaryCompartment::Carina, "InFlow");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToAsthma.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("Asthma.csv");
 
   // Advance some time to get some healthy data
   tracker.AdvanceModelTime(50);

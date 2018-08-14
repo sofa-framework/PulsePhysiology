@@ -46,7 +46,7 @@
 void HowToSmoke()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToSmoke.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("Smoke.log");
   pe->GetLogger()->Info("HowToSmoke");
   /*
   // Smoke is made up of many things.
@@ -100,7 +100,7 @@ void HowToSmoke()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("TotalMetabolicRate", PowerUnit::W);
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("SystemicVascularResistance", FlowResistanceUnit::mmHg_s_Per_mL);
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToEnvironmentChange.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("EnvironmentChange.csv");
 
   // Advance some time to get some resting data
   tracker.AdvanceModelTime(5);

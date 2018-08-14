@@ -33,7 +33,7 @@
 void HowToCOPD()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToCOPD.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("COPD.log");
   pe->GetLogger()->Info("HowToCOPD");
   
   // Since this is a condition, we do not provide a starting state
@@ -67,7 +67,7 @@ void HowToCOPD()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("InspiratoryExpiratoryRatio");
   pe->GetEngineTracker()->GetDataRequestManager().CreateGasCompartmentDataRequest(pulse::PulmonaryCompartment::Carina, "InFlow");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToCOPD.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("COPD.csv");
 
   // Advance some time to get some data
   tracker.AdvanceModelTime(500);

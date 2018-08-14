@@ -42,7 +42,7 @@ void HowToBrainInjury()
 {
   std::stringstream ss;
   // Create a Pulse Engine and load the standard patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToBrainInjury.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("BrainInjury.log");
   
   pe->GetLogger()->Info("HowToBrainInjury");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
@@ -64,7 +64,7 @@ void HowToBrainInjury()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("TotalLungVolume", VolumeUnit::mL);
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("OxygenSaturation");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToBrainInjury.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("rainInjury.csv");
 
   pe->GetLogger()->Info("The patient is nice and healthy");
   pe->GetLogger()->Info(std::stringstream() << "Systolic Pressure : " << pe->GetCardiovascularSystem()->GetSystolicArterialPressure(PressureUnit::mmHg) << PressureUnit::mmHg);

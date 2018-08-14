@@ -39,7 +39,7 @@
 void HowToAnesthesiaMachine()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToAnesthesiaMachine.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("AnesthesiaMachine.log");
   pe->GetLogger()->Info("HowToAnesthesiaMachine");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
   {
@@ -63,7 +63,7 @@ void HowToAnesthesiaMachine()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("OxygenSaturation");
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("SedationLevel");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToAnesthesiaMachine.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("AnesthesiaMachine.csv");
 
   pe->GetLogger()->Info("The patient is nice and healthy");
   pe->GetLogger()->Info(std::stringstream() <<"Tidal Volume : " << pe->GetRespiratorySystem()->GetTidalVolume(VolumeUnit::mL) << VolumeUnit::mL);

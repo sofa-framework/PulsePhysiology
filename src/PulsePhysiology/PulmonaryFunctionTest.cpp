@@ -32,7 +32,7 @@
 void HowToPulmonaryFunctionTest()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToPulmonaryFunctionTest.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("PulmonaryFunctionTest.log");
   pe->GetLogger()->Info("HowToPulmonaryFunctionTest");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
   {
@@ -59,7 +59,7 @@ void HowToPulmonaryFunctionTest()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("TotalLungVolume", VolumeUnit::mL);
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("OxygenSaturation");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToPulmonaryFunctionTest.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("PulmonaryFunctionTest.csv");
 
   tracker.AdvanceModelTime(5);
 

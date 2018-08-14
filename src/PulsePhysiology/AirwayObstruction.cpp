@@ -32,7 +32,7 @@ void HowToAirwayObstruction()
 {
   std::stringstream ss;
   // Create a Pulse Engine and load the standard patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToAirwayObstruction.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("AirwayObstruction.log");
   
   pe->GetLogger()->Info("HowToAirwayObstruction");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
@@ -54,7 +54,7 @@ void HowToAirwayObstruction()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("TotalLungVolume", VolumeUnit::mL);
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("OxygenSaturation");
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToAirwayObstruction.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("AirwayObstruction.csv");
 
   pe->GetLogger()->Info("The patient is nice and healthy");
   pe->GetLogger()->Info(std::stringstream() << "Tidal Volume : " << pe->GetRespiratorySystem()->GetTidalVolume(VolumeUnit::mL) << VolumeUnit::mL);

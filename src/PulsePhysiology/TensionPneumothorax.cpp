@@ -35,7 +35,7 @@
 void HowToTensionPneumothorax()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToTensionPneumothorax.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("TensionPneumothorax.log");
   pe->GetLogger()->Info("HowToTensionPneumothorax");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
   {
@@ -57,7 +57,7 @@ void HowToTensionPneumothorax()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("OxygenSaturation");
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("CardiacOutput", VolumePerTimeUnit::mL_Per_min);
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToTensionPneumothorax.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("TensionPneumothorax.csv");
 
   pe->GetLogger()->Info("The patient is nice and healthy");
   pe->GetLogger()->Info(std::stringstream() <<"Tidal Volume : " << pe->GetRespiratorySystem()->GetTidalVolume(VolumeUnit::mL) << VolumeUnit::mL);

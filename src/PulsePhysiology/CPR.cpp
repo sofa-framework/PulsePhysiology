@@ -65,7 +65,7 @@ public:
 void HowToCPR()
 {
   // Create the engine and load the patient
-  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("HowToCPR.log");
+  std::unique_ptr<PhysiologyEngine> pe = CreatePulseEngine("CPR.log");
   pe->GetLogger()->Info("HowToCPR");
   if (!pe->LoadStateFile("./states/StandardMale@0s.pba"))
   {
@@ -88,7 +88,7 @@ void HowToCPR()
   pe->GetEngineTracker()->GetDataRequestManager().CreatePhysiologyDataRequest("CardiacOutput",VolumePerTimeUnit::mL_Per_min);
   pe->GetEngineTracker()->GetDataRequestManager().CreateLiquidCompartmentDataRequest(pulse::VascularCompartment::Brain, "InFlow", VolumePerTimeUnit::mL_Per_min);
 
-  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("HowToCPR.csv");
+  pe->GetEngineTracker()->GetDataRequestManager().SetResultsFilename("CPR.csv");
 
   // This is the total amount of time that CPR will be administered in seconds
   double durationOfCPR_Seconds = 120;

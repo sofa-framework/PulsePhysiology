@@ -33,3 +33,5 @@ In the example case : `CMAKE_INSTALL_PREFIX= /PulsePhysiology-build`
 - Lets say you want to run simulation for Pulmonary Function, the command will be `bin/PulsePhysiology PulmonaryFunctionTest"`
 
 - Some of the other conditions are : `AirwayObstruction Asthma BrainInjury CPR TensionPneumothorax`
+
+- The data from the simulations is stored in the `/PulsePhysiology-build` with the name as `condition`.log

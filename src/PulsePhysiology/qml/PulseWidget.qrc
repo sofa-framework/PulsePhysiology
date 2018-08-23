@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+      <file>PulseWidget.qml</file>
+    </qresource>
+</RCC>

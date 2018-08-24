@@ -19,7 +19,6 @@ set(MOC_HEADER_FILES
 set(SOURCE_FILES
     config/PulsePhysiology.cpp
     src/PulsePhysiology/PulseWidget.cpp
-#    src/PulsePhysiology/main.cpp
     )
 
 set(QML_FILES

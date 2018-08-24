@@ -26,28 +26,32 @@ import SofaBasics 1.0
 import SofaApplication 1.0
 //import SofaSceneItemModel 1.0
 import SofaWidgets 1.0
+import PulseWidget 1.0
 
-Rectangle
+RowLayout
 {
-    anchors.fill: parent
-    color: "red"
+    id: rowLayout
 
-    Rectangle
-    {
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width/2
-        height: parent.height/2
-        color:"lightgray"
+    PulseWidget {
+        id: pulsewidget
+    }
 
-        Text {
-            text: "This is a demonstration widget"
+    TextField {
+        id: scenario
+        placeholderText: "Scenario"
+        Layout.fillWidth: true
+
+        text: pulsewidget.scenario
+        onEditingFinished: {
+            if(pulsewidget.scenario != text) pulsewidget.scenario = text
         }
+    }
 
-        Text {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: "Center part"
+    Button {
+        id: button
+        text: "Run"
+        onClicked: {
+            if(pulsewidget.scenario != scenario.text) pulsewidget.scenario = scenario.text
         }
     }
 }

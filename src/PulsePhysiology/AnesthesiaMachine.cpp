@@ -1,7 +1,7 @@
 /* Distributed under the Apache License, Version 2.0.
    See accompanying NOTICE file for details.*/
 
-////#include "EngineUse.h"
+#include "EngineUse.h"
 
 // Include the various types you will be using in your code
 #include "scenario/SEDataRequestManager.h"

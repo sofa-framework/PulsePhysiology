@@ -13,13 +13,13 @@ set(HEADER_FILES
     )
 set(MOC_HEADER_FILES
     src/PulsePhysiology/PulseWidget.h
-	src/PulsePhysiology/EngineUse.h
+    src/PulsePhysiology/EngineUse.h
     )
 
 set(SOURCE_FILES
     config/PulsePhysiology.cpp
     src/PulsePhysiology/PulseWidget.cpp
-    src/PulsePhysiology/main.cpp
+#    src/PulsePhysiology/main.cpp
     )
 
 set(QML_FILES

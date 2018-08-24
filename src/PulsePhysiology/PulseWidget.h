@@ -12,6 +12,8 @@
 #include <QString>
 #include <QVariant>
 
+#include <SofaQtQuickGUI/SofaScene.h>
+
 #include <PulsePhysiologyEngine.h>
 #include <system/physiology/SEBloodChemistrySystem.h>
 #include <system/physiology/SECardiovascularSystem.h>
@@ -25,12 +27,22 @@ namespace pulsephysiology
 
 class SOFA_PULSEPHYSIOLOGY_API PulseWidget : public QObject
 {
-//	Q_OBJECT
+    Q_OBJECT
 
 public:
-    PulseWidget(QObject* parent = 0);
+    PulseWidget(QObject* parent = nullptr);
     ~PulseWidget();
+    sofa::qtquick::SofaScene* m_sofaScene;
 
+    Q_PROPERTY(QString scenario READ scenario WRITE setScenario NOTIFY scenarioChanged)
+    QString m_scenario;
+    QString scenario() { return m_scenario; }
+    void setScenario(const QString& s) { m_scenario = s; emit scenarioChanged(); }
+
+signals:
+    void scenarioChanged();
+public slots:
+    void onScenarioChanged();
 };
 
 } // namespace pulsephysiology

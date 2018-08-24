@@ -1,5 +1,7 @@
 /* Distributed under the Apache License, Version 2.0.
    See accompanying NOTICE file for details.*/
+#ifndef ENGINEUSE_H_
+#define ENGINEUSE_H_
 
 // Note that this project is set with the following Additional Include Paths: ../include;../include/cdm;../include/cdm/bind
 // This will build an executable that is intended to execute a how-to method
@@ -62,3 +64,5 @@ public:
     }
   }
 };
+
+#endif // ENGINEUSE_H_

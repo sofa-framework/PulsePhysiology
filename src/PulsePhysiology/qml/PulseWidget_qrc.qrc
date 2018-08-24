@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-      <file>PulseWidget.qml</file>
+      <file>SofaWidgets/PulseWidget.qml</file>
     </qresource>
 </RCC>

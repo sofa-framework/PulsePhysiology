@@ -21,6 +21,21 @@
 ******************************************************************************/
 #include <PulsePhysiology.h>
 
+#ifdef QT_PLUGIN
+#include <PulsePhysiology/PulseWidget.h>
+#include <QApplication>
+#include <QDebug>
+#include <QQuickPaintedItem>
+
+const int versionMajor = 1;
+const int versionMinor = 0;
+
+static void initResources()
+{
+    Q_INIT_RESOURCE(PulseWidget_qrc);
+}
+#endif // QT_PLUGIN
+
 namespace sofa
 {
 namespace pulsephysiology
@@ -42,6 +57,11 @@ void initExternalModule()
     {
         first = false;
     }
+#ifdef QT_PLUGIN
+    initResources();
+
+    qmlRegisterType<sofa::pulsephysiology::PulseWidget>("PulseWidget", versionMajor, versionMinor, "PulseWidget");
+#endif // QT_PLUGIN
 }
 
 const char* getModuleName()

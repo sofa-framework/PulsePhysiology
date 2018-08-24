@@ -12,6 +12,11 @@
 #include <QString>
 #include <QVariant>
 
+#include <PulsePhysiologyEngine.h>
+#include <system/physiology/SEBloodChemistrySystem.h>
+#include <system/physiology/SECardiovascularSystem.h>
+#include <system/physiology/SEEnergySystem.h>
+#include <system/physiology/SERespiratorySystem.h>
 
 namespace sofa
 {
@@ -20,7 +25,7 @@ namespace pulsephysiology
 
 class SOFA_PULSEPHYSIOLOGY_API PulseWidget : public QObject
 {
-	Q_OBJECT
+//	Q_OBJECT
 
 public:
     PulseWidget(QObject* parent = 0);

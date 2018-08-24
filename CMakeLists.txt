@@ -11,28 +11,36 @@ set(HEADER_FILES
     config/PulsePhysiology.h
     src/PulsePhysiology/PulseWidget.h
     )
+set(MOC_HEADER_FILES
+    src/PulsePhysiology/PulseWidget.h
+    )
 
 set(SOURCE_FILES
     config/PulsePhysiology.cpp
-    src/PulsePhysiology/main.cpp
     src/PulsePhysiology/PulseWidget.cpp
     )
 
 set(QML_FILES
-    src/PulsePhysiology/qml/PulseWidget.qml
+    src/PulsePhysiology/qml/SofaWidgets/PulseWidget.qml
     )
 
 set(QRC_FILES
-    src/PulsePhysiology/qml/PulseWidget.qrc
+    src/PulsePhysiology/qml/PulseWidget_qrc.qrc
     )
 
-get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-    if(_variableName MATCHES "SofaQtQuickGUI")
-        message("${_variableName} = ${${_variableName}}")
-    endif()
-endforeach()
+# to fix a bug when one is compiling a debug version of the code
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DQT_NO_DEBUG)
+endif()
+add_definitions(-DQT_PLUGIN)
+
+#get_cmake_property(_variableNames VARIABLES)
+#list (SORT _variableNames)
+#foreach (_variableName ${_variableNames})
+#    if(_variableName MATCHES "SofaQtQuickGUI")
+#        message("${_variableName} = ${${_variableName}}")
+#    endif()
+#endforeach()
 
 #set(QML_DIRS
 #    ${SofaQtQuickGUI_INCLUDE_DIR}/../../../include/SofaQtQuickGUI/data/qml
@@ -52,17 +60,19 @@ endforeach()
 message("QML_IMPORT_PATH = ${QML_IMPORT_PATH}")
 set(QML_IMPORT_PATH "${QML_IMPORT_PATH}" CACHE STRING "Qt Creator extra qml import paths" FORCE)
 
+qt5_wrap_cpp(MOC_FILES ${MOC_HEADER_FILES}) # do not use "set(CMAKE_AUTOMOC ON)" since all the mocced files will be compiled by a single compilation unit leading to a "out of heap space" issue on MSVC
+qt5_add_resources(RESOURCE_FILES ${QRC_FILES})
 
-add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES} ${QML_FILES} ${QRC_FILES})
+add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES} ${MOC_FILES} ${RESOURCE_FILES} ${QML_FILES} ${QRC_FILES})
 #add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES} ${QML_FILES} ${QRC_FILES})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-DSOFA_BUILD_PULSEPHYSIOLOGY")
 
 message("CMAKE_THREAD_LIBS_INIT = ${CMAKE_THREAD_LIBS_INIT}")
 target_link_libraries(${PROJECT_NAME} SofaCore SofaQtQuickGUI)
-target_link_libraries(${PROJECT_NAME} debug "${Pulse_DEBUG_LIBS}")
-target_link_libraries(${PROJECT_NAME} debug "${Pulse_LIB_ROOT_DIR/release}")
-target_link_libraries(${PROJECT_NAME} optimized "${Pulse_LIBS}")
+#target_link_libraries(${PROJECT_NAME} debug "${Pulse_DEBUG_LIBS}")
+#target_link_libraries(${PROJECT_NAME} debug "${Pulse_LIB_ROOT_DIR/release}")
+target_link_libraries(${PROJECT_NAME} "${Pulse_LIBS}")
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 message("Pulse_INCLUDE_DIRS = ${Pulse_INCLUDE_DIRS}")

@@ -2,7 +2,11 @@ Inspired from https://github.com/sofa-framework/sofa/tree/master/applications/pl
 
 ## Build instructions
 
-- Build SOFA master and install it in a separate directory, let's say */home/user/sofa/install*
+- Build SOFA master with SofaQtQuick and install it in a separate directory, let's say */home/user/sofa/installWithQtQuick*
+    - Clone master branch of https://github.com/sofa-framework/SofaQtQuick
+    - Open CMake GUI on SOFA
+    - Set `SOFA_EXTERNAL_DIRECTORIES=/path/to/SofaQtQuick`
+    - Configure/generate, build and install SOFA
 
 - Build Pulse and install it in a separate directory, let's say */home/user/pulse/install*
 
@@ -11,7 +15,7 @@ Inspired from https://github.com/sofa-framework/sofa/tree/master/applications/pl
 - cd into this build dir and run `cmake-gui ../PulsePhysiology`
 
 - Add a variable `CMAKE_PREFIX_PATH` and set it to both SOFA and Pulse install dirs.  
-In the example case: `CMAKE_PREFIX_PATH=/home/user/sofa/install;/home/user/pulse/install`
+In the example case: `CMAKE_PREFIX_PATH=/home/user/sofa/installWithQtQuick;/home/user/pulse/install`
 
 - Also set `CMAKE_INSTALL_PREFIX` to the build dir.
 In the example case : `CMAKE_INSTALL_PREFIX= /PulsePhysiology-build`
